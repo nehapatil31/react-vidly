@@ -10,6 +10,21 @@ class App extends Component {
     activeGenre: "all",
     currentPage: 1
   };
+
+  handleDelete = movie => {
+    let moviesList = this.state.movies;
+    moviesList = moviesList.filter(item => item._id !== movie._id);
+    this.setState({ movies: moviesList });
+  };
+
+  handleLike = movie => {
+    let movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
+  };
+
   handleGenre = genre => {
     //Set active genre
     this.setState({ activeGenre: genre._id });
@@ -43,6 +58,8 @@ class App extends Component {
               movies={this.state.movies}
               currentPage={this.state.currentPage}
               handlePagination={this.handlePagination}
+              handleDelete={this.handleDelete}
+              handleLike={this.handleLike}
             />
           </div>
         </div>
