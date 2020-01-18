@@ -1,23 +1,23 @@
 import React, { Component } from "react";
 import Like from "./common/like";
-import { getMovies } from "../services/fakeMovieService";
+//import { getMovies } from "../services/fakeMovieService";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
+    //movies: getMovies(),
     pageSize: 4,
     currentPage: 1
   };
 
   handleDelete = movie => {
-    let moviesList = this.state.movies;
+    let moviesList = this.props.movies;
     moviesList = moviesList.filter(item => item._id !== movie._id);
     this.setState({ movies: moviesList });
   };
   handleLike = movie => {
-    let movies = [...this.state.movies];
+    let movies = [...this.props.movies];
     const index = movies.indexOf(movie);
     movies[index] = { ...movies[index] };
     movies[index].liked = !movies[index].liked;
@@ -28,8 +28,9 @@ class Movies extends Component {
   };
 
   render() {
-    const { length: count } = this.state.movies;
-    const { currentPage, pageSize, movies } = this.state;
+    const { length: count } = this.props.movies;
+    const { movies } = this.props;
+    const { currentPage, pageSize } = this.state;
 
     if (count === 0) return <span>There are no movies in the database.</span>;
 
