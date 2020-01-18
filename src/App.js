@@ -8,7 +8,8 @@ class App extends Component {
   state = {
     movies: getMovies(),
     activeGenre: "all",
-    currentPage: 1
+    currentPage: 1,
+    sortOrder: {}
   };
 
   handleDelete = movie => {
@@ -43,6 +44,9 @@ class App extends Component {
   handlePagination = page => {
     this.setState({ currentPage: page });
   };
+  onSort = sortOrder => {
+    this.setState({ sortOrder });
+  };
   render() {
     return (
       <div>
@@ -60,6 +64,8 @@ class App extends Component {
               handlePagination={this.handlePagination}
               handleDelete={this.handleDelete}
               handleLike={this.handleLike}
+              onSort={this.onSort}
+              sortOrder={this.state.sortOrder}
             />
           </div>
         </div>
