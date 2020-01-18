@@ -6,9 +6,7 @@ import { paginate } from "../utils/paginate";
 
 class Movies extends Component {
   state = {
-    //movies: getMovies(),
-    pageSize: 4,
-    currentPage: 1
+    pageSize: 4
   };
 
   handleDelete = movie => {
@@ -23,14 +21,11 @@ class Movies extends Component {
     movies[index].liked = !movies[index].liked;
     this.setState({ movies });
   };
-  handlePagination = page => {
-    this.setState({ currentPage: page });
-  };
 
   render() {
     const { length: count } = this.props.movies;
-    const { movies } = this.props;
-    const { currentPage, pageSize } = this.state;
+    const { movies, currentPage } = this.props;
+    const { pageSize } = this.state;
 
     if (count === 0) return <span>There are no movies in the database.</span>;
 
@@ -84,7 +79,7 @@ class Movies extends Component {
           itemsCount={movies.length}
           pageSize={pageSize}
           currentPage={currentPage}
-          onClick={this.handlePagination}
+          onClick={this.props.handlePagination}
         />
       </div>
     );

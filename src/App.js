@@ -7,11 +7,13 @@ import { getMovies } from "./services/fakeMovieService";
 class App extends Component {
   state = {
     movies: getMovies(),
-    activeGenre: "all"
+    activeGenre: "all",
+    currentPage: 1
   };
   handleGenre = genre => {
     //Set active genre
     this.setState({ activeGenre: genre._id });
+    this.setState({ currentPage: 1 });
 
     const movies = getMovies();
     if (genre === "all") {
@@ -22,6 +24,9 @@ class App extends Component {
       return movie.genre._id === genre._id;
     });
     this.setState({ movies: filteredMovies });
+  };
+  handlePagination = page => {
+    this.setState({ currentPage: page });
   };
   render() {
     return (
@@ -34,7 +39,11 @@ class App extends Component {
             />
           </div>
           <div className="col">
-            <Movies movies={this.state.movies} />
+            <Movies
+              movies={this.state.movies}
+              currentPage={this.state.currentPage}
+              handlePagination={this.handlePagination}
+            />
           </div>
         </div>
       </div>
