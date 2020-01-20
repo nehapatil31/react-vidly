@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Like from "./common/like";
 import TableHeader from "./common/tableHeader";
+import TableBody from "./common/tableBody";
 
 class MoviesTable extends Component {
   headerColumns = [
@@ -8,20 +9,44 @@ class MoviesTable extends Component {
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
-    { key: "like" },
-    { key: "delete" }
+    {
+      key: "like",
+      content: movie => (
+        <Like
+          liked={movie.liked}
+          onClick={() => {
+            this.props.handleLike(movie);
+          }}
+        />
+      )
+    },
+    {
+      key: "delete",
+      content: movie => (
+        <button
+          className="btn btn-danger"
+          onClick={() => {
+            this.props.handleDelete(movie);
+          }}
+        >
+          Delete
+        </button>
+      )
+    }
   ];
   render() {
     return (
       <table className="table">
-        <thead>
-          <TableHeader
-            headerColumns={this.headerColumns}
-            onSort={this.props.onSort}
-            sortOrder={this.props.sortOrder}
-          />
-        </thead>
-        <tbody>
+        <TableHeader
+          headerColumns={this.headerColumns}
+          onSort={this.props.onSort}
+          sortOrder={this.props.sortOrder}
+        />
+        <TableBody
+          data={this.props.filteredMovies}
+          columns={this.headerColumns}
+        />
+        {/* <tbody>
           {this.props.filteredMovies.map(movie => {
             return (
               <tr key={movie._id}>
@@ -29,28 +54,12 @@ class MoviesTable extends Component {
                 <td>{movie.genre.name}</td>
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
-                <td>
-                  <Like
-                    liked={movie.liked}
-                    onClick={() => {
-                      this.props.handleLike(movie);
-                    }}
-                  />
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => {
-                      this.props.handleDelete(movie);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+                <td></td>
+                <td></td>
               </tr>
             );
           })}
-        </tbody>
+        </tbody> */}
       </table>
     );
   }
