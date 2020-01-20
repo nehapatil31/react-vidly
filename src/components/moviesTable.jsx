@@ -46,20 +46,6 @@ class MoviesTable extends Component {
           data={this.props.filteredMovies}
           columns={this.headerColumns}
         />
-        {/* <tbody>
-          {this.props.filteredMovies.map(movie => {
-            return (
-              <tr key={movie._id}>
-                <td>{movie.title}</td>
-                <td>{movie.genre.name}</td>
-                <td>{movie.numberInStock}</td>
-                <td>{movie.dailyRentalRate}</td>
-                <td></td>
-                <td></td>
-              </tr>
-            );
-          })}
-        </tbody> */}
       </table>
     );
   }

@@ -7,7 +7,7 @@ const GenreList = props => {
   return (
     <ul className="list-group">
       <li
-        className={`list-group-item${
+        className={`clickable list-group-item${
           props.activeGenre === "all" ? " active" : ""
         }`}
         key="all"
@@ -17,7 +17,7 @@ const GenreList = props => {
       </li>
       {genres.map(genre => (
         <li
-          className={`list-group-item${
+          className={`clickable list-group-item${
             props.activeGenre === genre._id ? " active" : ""
           }`}
           key={genre._id}
