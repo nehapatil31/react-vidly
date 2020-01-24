@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import { Switch, Route } from "react-router-dom";
 import "./App.css";
 import Movies from "./components/movies";
 import GenreList from "./components/genreList";
 import { getMovies } from "./services/fakeMovieService";
+import NavBar from "./components/common/navBar";
+import Customers from "./components/customers";
 
 class App extends Component {
   state = {
@@ -50,6 +53,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <NavBar />
         <div className="row">
           <div className="col-3">
             <GenreList
@@ -58,15 +62,24 @@ class App extends Component {
             />
           </div>
           <div className="col">
-            <Movies
-              movies={this.state.movies}
-              currentPage={this.state.currentPage}
-              handlePagination={this.handlePagination}
-              handleDelete={this.handleDelete}
-              handleLike={this.handleLike}
-              onSort={this.onSort}
-              sortOrder={this.state.sortOrder}
-            />
+            <Switch>
+              <Route
+                path="/movies"
+                render={props => (
+                  <Movies
+                    movies={this.state.movies}
+                    currentPage={this.state.currentPage}
+                    handlePagination={this.handlePagination}
+                    handleDelete={this.handleDelete}
+                    handleLike={this.handleLike}
+                    onSort={this.onSort}
+                    sortOrder={this.state.sortOrder}
+                    {...props}
+                  />
+                )}
+              />
+              <Route path="/customers" component={Customers} />
+            </Switch>
           </div>
         </div>
       </div>
