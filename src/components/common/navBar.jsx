@@ -33,6 +33,14 @@ const NavBar = props => {
           >
             Rentals
           </NavLink>
+
+          <NavLink
+            className="nav-item nav-link"
+            activeClassName="active"
+            to="/login"
+          >
+            Login
+          </NavLink>
         </ul>
       </div>
     </nav>
