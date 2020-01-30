@@ -1,18 +1,18 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import Joi from "joi-browser";
 import Form from "./common/form";
 import { getGenres } from "../services/fakeGenreService";
-import { saveMovie } from "../services/fakeMovieService";
+import { saveMovie, getMovie } from "../services/fakeMovieService";
 
-let lastId = 0;
 class MovieForm extends Form {
   state = {
     data: {
       _id: "",
       title: "",
       genre: { _id: "", name: "" },
-      numberInStock: undefined,
-      dailyRentalRate: undefined,
+      numberInStock: "",
+      dailyRentalRate: "",
       publishDate: "2018-01-03T19:04:28.809Z",
       liked: true
     },
@@ -24,8 +24,11 @@ class MovieForm extends Form {
       .label("Title"),
     numberInStock: Joi.number()
       .required()
+      .min(0)
       .label("Number in stock"),
     dailyRentalRate: Joi.number()
+      .min(0)
+      .max(10)
       .required()
       .label("Daily rental rate")
   };
@@ -33,10 +36,6 @@ class MovieForm extends Form {
   doSubmit = () => {
     //Add new movie to list
     const movieData = { ...this.state.data };
-    if (this.props.match.path === "/movies/new") {
-      lastId++;
-      movieData._id = lastId;
-    }
     saveMovie(movieData);
     //Call to server
     console.log("submitted");
@@ -55,10 +54,27 @@ class MovieForm extends Form {
   componentDidMount() {
     const { movieId } = this.props.match.params;
     if (!movieId) return;
-    const { movie } = this.props.location.state;
-    this.setState({ data: movie });
+    const movieData = getMovie(movieId);
+    const newFlag = this.props.location.state
+      ? this.props.location.state.new
+      : undefined;
+    if (!movieData && !newFlag) {
+      return <Redirect to="/not-found" />;
+    }
+
+    this.setState({ data: movieData });
   }
   render() {
+    const { movieId } = this.props.match.params;
+    const movie = getMovie(movieId);
+    const newFlag = this.props.location.state
+      ? this.props.location.state.new
+      : undefined;
+
+    if (!movie && !newFlag) {
+      return <Redirect to="/not-found" />;
+    }
+
     return (
       <div>
         <h1>MovieForm {this.props.match.params.movieId}</h1>
