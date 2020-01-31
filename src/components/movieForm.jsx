@@ -10,7 +10,7 @@ class MovieForm extends Form {
         data: {
             _id: "",
             title: "",
-            genre: { _id: "", name: "" },
+            // genre: { _id: "", name: "" },
             genreId: "",
             numberInStock: "",
             dailyRentalRate: ""
@@ -18,6 +18,8 @@ class MovieForm extends Form {
         errors: {}
     };
     schema = {
+        _id: Joi.string(),
+        genreId: Joi.string(),
         title: Joi.string()
             .required()
             .label("Title"),
@@ -33,7 +35,7 @@ class MovieForm extends Form {
     };
 
     dataToModelData = data => {
-        const modalData = {
+        const modelData = {
             _id: data._id,
             title: data.title,
             genreId: data.genre._id,
@@ -71,7 +73,7 @@ class MovieForm extends Form {
             return <Redirect to="/not-found" />;
         }
 
-        this.setState({ data: movieData });
+        this.setState({ data: this.dataToModelData(movieData) });
     }
     render() {
         const { movieId } = this.props.match.params;
@@ -89,8 +91,8 @@ class MovieForm extends Form {
                 <h1>MovieForm {this.props.match.params.movieId}</h1>
                 <form onSubmit={this.handleSubmit}>
                     {this.renderInput("title", "Title")}
-                    {this.renderInput("genre", "Genre")}
-                    <label className="my-1 mr-2" htmlFor="genre">
+                    {this.renderSelect("genre", "Genre")}
+                    {/* <label className="my-1 mr-2" htmlFor="genre">
                         Genre
                     </label>
                     <select
@@ -106,7 +108,7 @@ class MovieForm extends Form {
                                 {genre.name}
                             </option>
                         ))}
-                    </select>
+                    </select> */}
                     {this.renderInput("numberInStock", "Number in stock")}
                     {this.renderInput("dailyRentalRate", "Daily rental rate")}
                     {this.renderSubmit("Save")}

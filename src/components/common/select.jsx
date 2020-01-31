@@ -1,18 +1,18 @@
 import React from "react";
 
 const Select = ({ error, name, label, ...rest }) => {
-    return (
-        <div className="form-group">
-            <label htmlFor={name}>{label}</label>
-            <input
-                {...rest}
-                id={name}
-                className={`form-control${error ? " is-invalid" : ""}`}
-                name={name}
-            />
-            {error && <div className="invalid-feedback">{error}</div>}
-        </div>
-    );
+    // return (
+    //     <div className="form-group">
+    //         <label htmlFor={name}>{label}</label>
+    //         <input
+    //             {...rest}
+    //             id={name}
+    //             className={`form-control${error ? " is-invalid" : ""}`}
+    //             name={name}
+    //         />
+    //         {error && <div className="invalid-feedback">{error}</div>}
+    //     </div>
+    // );
     return (
         <div className="form-group">
             <label className="my-1 mr-2" htmlFor={name}>
@@ -24,8 +24,6 @@ const Select = ({ error, name, label, ...rest }) => {
                 }`}
                 id={name}
                 name={name}
-                value={this.state.data.genre._id}
-                onChange={this.handleChangeSelect}
                 {...rest}
             >
                 <option>Choose...</option>

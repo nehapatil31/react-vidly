@@ -62,13 +62,22 @@ class Form extends Component {
                 name={name}
                 label={label}
                 value={data[name]}
-                onChange={this.handleChangeSelect}
+                onChange={this.handleChange}
                 error={errors[name]}
             />
         );
     };
     renderSelect = (name, label) => {
-        return <Select name={name} label={label} />;
+        const { data, errors } = this.state;
+        return (
+            <Select
+                name={name}
+                label={label}
+                value={data[name]._id}
+                onChange={this.handleChangeSelect}
+                error={errors[name]}
+            />
+        );
     };
     renderSubmit = label => {
         return (
