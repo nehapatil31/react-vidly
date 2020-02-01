@@ -4,12 +4,14 @@ import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
 import GenreList from "./genreList";
 import { getMovies } from "../services/fakeMovieService";
+import { getGenres } from "../services/fakeGenreService";
 import _ from "lodash";
 
 class Movies extends Component {
   state = {
     pageSize: 4,
     movies: getMovies(),
+    genres: getGenres(),
     activeGenre: "all",
     currentPage: 1,
     sortOrder: {}
@@ -67,6 +69,7 @@ class Movies extends Component {
           <GenreList
             handleGenre={this.handleGenre}
             activeGenre={this.state.activeGenre}
+            genres={this.state.genres}
           />
         </div>
         <div className="col">

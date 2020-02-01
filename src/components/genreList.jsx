@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import { getGenres } from "../services/fakeGenreService";
+import React from "react";
 
 const GenreList = props => {
-  const [genres, setGenres] = useState(getGenres());
-
   return (
     <ul className="list-group">
       <li
@@ -15,7 +12,7 @@ const GenreList = props => {
       >
         All
       </li>
-      {genres.map(genre => (
+      {props.genres.map(genre => (
         <li
           className={`clickable list-group-item${
             props.activeGenre === genre._id ? " active" : ""

@@ -17,7 +17,7 @@ const Pagination = props => {
             className={`page-item${currentPage === page ? " active" : ""}`}
             key={page}
           >
-            <a className="page-link" onClick={() => onClick(page)}>
+            <a href="#" className="page-link" onClick={() => onClick(page)}>
               {page}
             </a>
           </li>
