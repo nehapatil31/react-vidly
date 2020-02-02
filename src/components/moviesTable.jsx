@@ -44,7 +44,7 @@ class MoviesTable extends Component {
         headerColumns={this.headerColumns}
         onSort={this.props.onSort}
         sortOrder={this.props.sortOrder}
-        data={this.props.filteredMovies}
+        data={this.props.movies}
       />
     );
   }
