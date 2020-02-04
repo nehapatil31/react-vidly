@@ -1,8 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import { getGenres } from "../services/fakeGenreService";
-import { saveMovie, getMovie } from "../services/fakeMovieService";
+import { getGenres } from "../services/genreService";
+import { saveMovie, getMovie } from "../services/movieService";
 
 class MovieForm extends Form {
   state = {
@@ -34,7 +34,7 @@ class MovieForm extends Form {
       .label("Daily rental rate")
   };
 
-  dataToModelData = data => {
+  mapToViewModel = ({ data }) => {
     return {
       _id: data._id,
       title: data.title,
@@ -43,28 +43,38 @@ class MovieForm extends Form {
       dailyRentalRate: data.dailyRentalRate
     };
   };
-  doSubmit = () => {
+  doSubmit = async () => {
     //Add new movie to list
     const movieData = { ...this.state.data };
-    saveMovie(movieData);
-    //Call to server
-    console.log("submitted");
+    await saveMovie(movieData);
+
     //Navigate to movies page
-    this.props.history.replace("/movies");
+    this.props.history.push("/movies");
   };
-  componentDidMount() {
-    //set genres
-    const genres = getGenres();
+
+  async populateGenres() {
+    const { data: genres } = await getGenres();
     this.setState({ genres });
-
-    const { movieId } = this.props.match.params;
-    if (movieId === "new") return;
-
-    const movieData = getMovie(movieId);
-    if (!movieData) return this.props.history.replace("/not-found");
-
-    this.setState({ data: this.dataToModelData(movieData) });
   }
+
+  async populateMovies() {
+    try {
+      const { movieId } = this.props.match.params;
+      if (movieId === "new") return;
+
+      const movieData = await getMovie(movieId);
+      this.setState({ data: this.mapToViewModel(movieData) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        this.props.history.replace("/not-found");
+    }
+  }
+
+  async componentDidMount() {
+    await this.populateGenres();
+    await this.populateMovies();
+  }
+
   render() {
     return (
       <div>
